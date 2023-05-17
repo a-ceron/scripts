@@ -78,13 +78,11 @@ while getopts ":hp:vu:l:d" option; do
          run=1
          ;;
       d) # connect using port 2220
-         echo "Default mode"
          run=1
          ;;
    esac
 done
 
-echo $run
 if [ $run = 1 ]; then
       echo "Connecting to $USER@$HOST using port $PORT"
       connect
