@@ -1,18 +1,4 @@
-#!/usr/bin/bash
-################################################################################
-#                              scriptTemplate                                  #
-#                                                                              #
-# Use this template as the beginning of a new program. Place a short           #
-# description of the script here.                                              #
-#                                                                              #
-# Change History                                                               #
-# 11/11/2019  David Both    Original code. This is a template for creating     #
-#                           new Bash shell scripts.                            #
-#                           Add new history entries as needed.                 #
-#                                                                              #
-#                                                                              #
-################################################################################
-################################################################################
+#!/bin/bash
 ################################################################################
 #                                                                              #
 #  Copyright (C) 2007, 2019 David Both                                         #
@@ -37,32 +23,38 @@
 ################################################################################
 
 ################################################################################
-# Help                                                                         #
+# Functions                                                                    #
 ################################################################################
 Help()
 {
    # Display Help
-   echo "Add description of the script functions here."
+   echo "Connecting to a remote host using SSH."
    echo
-   echo "Syntax: scriptTemplate [-g|h|t|v|V]"
+   echo "Syntax: ssh [-p|h|t|V]"
    echo "options:"
-   echo "g     Print the GPL license notification."
+   echo "p     Connect using 2220 port."
    echo "h     Print this Help."
-   echo "v     Verbose mode."
    echo "V     Print software version and exit."
    echo
 }
 
+connect(){
+   # Connect to the remote host
+   ssh -p $PORT $USER@$HOST
+}
+################################################################################
+# Set variables                                                                #
+################################################################################
+PORT=2220
+USER="bandit0"
+HOST="bandit.labs.overthewire.org"
 ################################################################################
 ################################################################################
 # Main program                                                                 #
 ################################################################################
 ################################################################################
-################################################################################
-# Process the input options. Add options as needed.                            #
-################################################################################
 # Get the options
-while getopts ":h" option; do
+while getopts ":hp:vu:l:d" option; do
    case $option in
       h) # display Help
          Help
@@ -70,7 +62,30 @@ while getopts ":h" option; do
      \?) # incorrect option
          echo "Error: Invalid option"
          exit;;
+      V) # display version
+         echo "ssh version 0.1"
+         exit;;
+      p) # connect using port 2220
+         PORT="$OPTARG"
+         run=1
+         ;;
+      u) # connect using port 2220
+         USER="$OPTARG"
+         run=1
+         ;;
+      l) # connect using port 2220
+         HOST="$OPTARG"
+         run=1
+         ;;
+      d) # connect using port 2220
+         echo "Default mode"
+         run=1
+         ;;
    esac
 done
 
-echo "Hello world!"
+echo $run
+if [ $run = 1 ]; then
+      echo "Connecting to $USER@$HOST using port $PORT"
+      connect
+fi
